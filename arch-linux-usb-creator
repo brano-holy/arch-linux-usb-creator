@@ -3,7 +3,7 @@
 echo "Arch Linux USB Creator"
 
 device=${2:0: -1}
-partNum=${2: -1}
+partition=${2: -1}
 
 mkdir -p /mnt/arch-iso
 mount -o loop "$1" /mnt/arch-iso
@@ -24,7 +24,7 @@ umount /mnt/arch-usb
 rmdir /mnt/arch-iso
 rmdir /mnt/arch-usb
 
-sfdisk -A$partNum $device
+sfdisk -A$partition $device
 dd bs=440 count=1 conv=notrunc if=/usr/lib/syslinux/bios/mbr.bin of=$device
 
 echo "Arch Linux USB Creator: Done"
