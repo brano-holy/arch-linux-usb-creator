@@ -19,7 +19,7 @@ Download
 --------
 Because `arch-linux-usb-creator` is only shell script, there is no need to 
 compile. You can download `arch-linux-usb-creator` directly from GitHub:
-```
+```bash
 wget https://raw.github.com/brano-holy/arch-linux-usb-creator/master/arch-linux-usb-creator
 chmod +x arch-linux-usb-creator
 ```
