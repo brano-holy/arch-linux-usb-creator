@@ -26,8 +26,12 @@ $ chmod +x arch-linux-usb-creator
 
 Usage
 -----
-`./arch-linux-usb-creator <path-to-arch-linux-iso> <device-partition>`
+```bash
+$ ./arch-linux-usb-creator <path-to-arch-linux-iso> <device-partition>
+```
 
 Example
 -------
-`./arch-linux-usb-creator ~/Downloads/archlinux-2014.03.01-dual.iso /dev/sdb1`
+```bash
+$ ./arch-linux-usb-creator ~/Downloads/archlinux-2014.03.01-dual.iso /dev/sdb1
+```
