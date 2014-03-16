@@ -40,6 +40,8 @@ $ cd arch-linux-usb-creator
 
 Usage
 -----
+Run `arch-linux-usb-creator` as root user.
+
 ```bash
 $ ./arch-linux-usb-creator <path-to-arch-linux-iso> <device-partition>
 ```
