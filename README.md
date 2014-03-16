@@ -26,6 +26,12 @@ $ wget https://raw.github.com/brano-holy/arch-linux-usb-creator/master/arch-linu
 $ chmod +x arch-linux-usb-creator
 ```
 
+Or with this short URL:
+```bash
+$ wget http://git.io/84IWDg -O arch-linux-usb-creator
+$ chmod +x arch-linux-usb-creator
+```
+
 Or using `git clone` command:
 ```bash
 $ git clone https://github.com/brano-holy/arch-linux-usb-creator.git
