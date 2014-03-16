@@ -2,18 +2,20 @@
 
 echo "Arch Linux USB Creator"
 
-device=${2:0: -1}
-partition=${2: -1}
+isoPath=$1
+partition=$2
+device=${partition:0: -1}
+partitionNumber=${partition: -1}
 
 mkdir -p /mnt/arch-iso
-mount -o loop "$1" /mnt/arch-iso
+mount -o loop "$isoPath" /mnt/arch-iso
 
 mkdir -p /mnt/arch-usb
-mount "$2" /mnt/arch-usb
+mount "$partition" /mnt/arch-usb
 
 cp -a /mnt/arch-iso/* /mnt/arch-usb
 
-sed -i "s|label=ARCH_.*|device=/dev/disk/by-uuid/$(blkid -o value -s UUID $2)|" /mnt/arch-usb/arch/boot/syslinux/archiso_sys{32,64}.cfg
+sed -i "s|label=ARCH_.*|device=/dev/disk/by-uuid/$(blkid -o value -s UUID $partition)|" /mnt/arch-usb/arch/boot/syslinux/archiso_sys{32,64}.cfg
 
 cp -r /usr/lib/syslinux/bios/*.c32 /mnt/arch-usb/arch/boot/syslinux
 extlinux --install /mnt/arch-usb/arch/boot/syslinux
@@ -24,7 +26,7 @@ umount /mnt/arch-usb
 rmdir /mnt/arch-iso
 rmdir /mnt/arch-usb
 
-sfdisk -A$partition $device
+sfdisk -A$partitionNumber $device
 dd bs=440 count=1 conv=notrunc if=/usr/lib/syslinux/bios/mbr.bin of=$device
 
 echo "Arch Linux USB Creator: Done"
