@@ -42,12 +42,12 @@ Usage
 -----
 Before first use, change `mirror` variable to the closest server from 
 [http://www.archlinux.org/download/](http://www.archlinux.org/download/) (it 
-should be path to *archlinux* folder).
+should be path to folder which contains *archlinux* folder).
 
 Run `arch-linux-usb-creator` as root user.
 
 ```bash
-$ ./arch-linux-usb-creator <device-partition> \[<path-to-arch-linux-iso>\]
+$ ./arch-linux-usb-creator <device-partition> [<path-to-arch-linux-iso>]
 ```
 
 Omiting <path-to-arch-linux-iso> option will download the latest Arch Linux ISO 
