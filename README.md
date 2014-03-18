@@ -40,14 +40,27 @@ $ cd arch-linux-usb-creator
 
 Usage
 -----
+Before first use, change `mirror` variable to the closest server from 
+[http://www.archlinux.org/download/](http://www.archlinux.org/download/) (it 
+should be path to *archlinux* folder).
+
 Run `arch-linux-usb-creator` as root user.
 
 ```bash
-$ ./arch-linux-usb-creator <path-to-arch-linux-iso> <device-partition>
+$ ./arch-linux-usb-creator <device-partition> \[<path-to-arch-linux-iso>\]
 ```
+
+Omiting <path-to-arch-linux-iso> option will download the latest Arch Linux ISO 
+from specified mirror and check `sha1sum` after download.
 
 Example
 -------
+Use the latest image:
 ```bash
-$ ./arch-linux-usb-creator ~/Downloads/archlinux-2014.03.01-dual.iso /dev/sdb1
+$ ./arch-linux-usb-creator /dev/sdb1
+```
+
+Use previously downloaded image:
+```bash
+$ ./arch-linux-usb-creator /dev/sdb1 ~/Downloads/archlinux-2014.03.01-dual.iso
 ```

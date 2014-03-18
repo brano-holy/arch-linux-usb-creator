@@ -2,10 +2,46 @@
 
 echo "Arch Linux USB Creator"
 
-isoPath=$1
-partition=$2
+mirror="http://mirror.jmu.edu/pub"
+
+if [ -z "$1" ]; then
+	echo "Missing partition option (see README.md file)!"
+	exit
+fi
+
+partition=$1
 device=${partition:0: -1}
 partitionNumber=${partition: -1}
+
+downloaded=false
+if [ -z "$2" ]; then
+	echo "Downloading the latest Arch Linux ISO."
+
+	mirrorDir="$mirror/archlinux/iso/latest"
+
+	wget $mirrorDir -O /tmp/archlinux-iso-index.html
+	isoName=`sed "s/.*\(archlinux-[0-9\.]\+-dual\.iso\).*/\1/" /tmp/archlinux-iso-index.html | grep dual.iso | tail -1`
+	rm /tmp/archlinux-iso-index.html
+
+	wget "$mirrorDir/$isoName" -O "/tmp/$isoName"
+	wget "$mirrorDir/sha1sums.txt" -O /tmp/archlinux-iso-sha1sums.txt
+
+	cwd=`pwd`
+	cd /tmp
+	cat archlinux-iso-sha1sums.txt | grep dual.iso | sha1sum -c --status
+	if [ "$?" == "0" ]; then
+		isoPath="/tmp/$isoName"
+	else
+		echo "SHA1SUM does not match!"
+		exit
+	fi
+	
+	downloaded=true
+	rm "$mirrorDir/sha1sums.txt"
+	cd "$cwd"
+else
+	isoPath=$2
+fi
 
 mkdir -p /mnt/arch-iso
 mount -o loop "$isoPath" /mnt/arch-iso
@@ -25,6 +61,10 @@ umount /mnt/arch-iso
 umount /mnt/arch-usb
 rmdir /mnt/arch-iso
 rmdir /mnt/arch-usb
+
+if [ $downloaded ]; then
+	rm "/tmp/$isoName"
+fi
 
 sfdisk -A$partitionNumber $device
 dd bs=440 count=1 conv=notrunc if=/usr/lib/syslinux/bios/mbr.bin of=$device
