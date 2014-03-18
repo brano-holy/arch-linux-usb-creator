@@ -50,7 +50,7 @@ Run `arch-linux-usb-creator` as root user.
 $ ./arch-linux-usb-creator <device-partition> [<path-to-arch-linux-iso>]
 ```
 
-Omiting <path-to-arch-linux-iso> option will download the latest Arch Linux ISO 
+Omiting `<path-to-arch-linux-iso>` option will download the latest Arch Linux ISO 
 from specified mirror and check `sha1sum` after download.
 
 Example
