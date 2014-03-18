@@ -53,8 +53,8 @@ $ ./arch-linux-usb-creator <device-partition> [<path-to-arch-linux-iso>]
 Omiting `<path-to-arch-linux-iso>` option will download the latest Arch Linux ISO 
 from specified mirror and check `sha1sum` after download.
 
-Example
--------
+Examples
+--------
 Use the latest image:
 ```bash
 $ ./arch-linux-usb-creator /dev/sdb1
