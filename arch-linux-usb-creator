@@ -37,7 +37,7 @@ if [ -z "$2" ]; then
 	fi
 	
 	downloaded=true
-	rm "$mirrorDir/sha1sums.txt"
+	rm /tmp/archlinux-iso-sha1sums.txt
 	cd "$cwd"
 else
 	isoPath=$2
