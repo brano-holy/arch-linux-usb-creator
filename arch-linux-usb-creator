@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 echo "Arch Linux USB Creator"
-exit
+
 mirror="http://mirror.jmu.edu/pub"
 
 if [ -z "$1" ]; then
