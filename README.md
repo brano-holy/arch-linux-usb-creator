@@ -67,4 +67,6 @@ $ ./arch-linux-usb-creator /dev/sdb1 ~/Downloads/archlinux-2014.03.01-dual.iso
 
 License
 -------
-Arch Linux USB Creator is licensed under GNU GPL v3 (see COPYING file).
+Arch Linux USB Creator is licensed under GNU GPL v3 (see 
+[COPYING](https://github.com/brano-holy/arch-linux-usb-creator/blob/master/COPYING) 
+file).
