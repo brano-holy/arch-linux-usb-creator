@@ -3,7 +3,7 @@ Arch Linux USB Creator
 
 arch-linux-usb-creator
 ----------------------
-*Helper script for creating USB Flash Installation Media with Arch Linux.*
+*Unofficial helper script for creating USB Flash Installation Media with Arch Linux.*
 
 `arch-linux-usb-creator` creates installation USB according to [https://wiki.archlinux.org/index.php/Install\_from\_a\_USB\_flash\_drive#Using\_manual\_formatting](https://wiki.archlinux.org/index.php/Install_from_a_USB_flash_drive#Using_manual_formatting).
 
@@ -64,3 +64,7 @@ Use previously downloaded image:
 ```bash
 $ ./arch-linux-usb-creator /dev/sdb1 ~/Downloads/archlinux-2014.03.01-dual.iso
 ```
+
+License
+-------
+Arch Linux USB Creator is licensed under GNU GPL v3 (see COPYING file).
