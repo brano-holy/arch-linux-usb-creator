@@ -23,7 +23,8 @@ echo "Arch Linux USB Creator"
 . mirrors.conf
 
 if [ -z "$mirror" ]; then
-	echo "Error: You have to set mirror variable in mirrors.conf file. (see README.md file)!"
+	echo "Error: You have to set mirror variable in mirrors.conf file (see README.md file)!"
+	exit
 fi
 
 if [ -n "$1" ]; then
