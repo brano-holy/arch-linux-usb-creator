@@ -3,25 +3,32 @@
 # Arch Linux USB Creator
 # Copyright (C) 2014  Branislav Holý <brano.holy@gmail.com>
 #
-# This program is free software: you can redistribute it and/or modify
+# This file is part of Arch Linux USB Creator.
+#
+# Arch Linux USB Creator is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 #
-# This program is distributed in the hope that it will be useful,
+# Arch Linux USB Creator is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with Arch Linux USB Creator.  If not, see <http://www.gnu.org/licenses/>.
 
 echo "Arch Linux USB Creator"
 
-mirror="http://mirror.jmu.edu/pub"
+. mirrors.conf
 
-if [ -z "$1" ]; then
-	echo "Missing partition option (see README.md file)!"
+if [ -n "$1" ]; then
+	if [ ! -b "$1" ]; then
+		echo "Error: Partition option is not set to block device."
+		exit
+	fi
+else
+	echo "Error: Missing partition option (see README.md file)!"
 	exit
 fi
 
@@ -29,34 +36,48 @@ partition=$1
 device=${partition:0: -1}
 partitionNumber=${partition: -1}
 
-downloaded=false
-if [ -z "$2" ]; then
-	echo "Downloading the latest Arch Linux ISO."
-
-	mirrorDir="$mirror/archlinux/iso/latest"
-
-	wget $mirrorDir -O /tmp/archlinux-iso-index.html
-	isoName=`sed "s/.*\(archlinux-[0-9\.]\+-dual\.iso\).*/\1/" /tmp/archlinux-iso-index.html | grep dual.iso | tail -1`
-	rm /tmp/archlinux-iso-index.html
-
-	wget "$mirrorDir/$isoName" -O "/tmp/$isoName"
-	wget "$mirrorDir/sha1sums.txt" -O /tmp/archlinux-iso-sha1sums.txt
-
-	cwd=`pwd`
-	cd /tmp
-	cat archlinux-iso-sha1sums.txt | grep dual.iso | sha1sum -c --status
-	if [ "$?" == "0" ]; then
-		isoPath="/tmp/$isoName"
+if [ -n "$2" ]; then
+	if [ -f "$2" ]; then
+		download=false
+		isoPath=$2
+	elif [ -d "$2" ]; then
+		download=true
+		downloadDir=$2
 	else
-		echo "SHA1SUM does not match!"
+		echo "Error: Wrong path to ISO or to download directory!"
 		exit
 	fi
-	
-	downloaded=true
-	rm /tmp/archlinux-iso-sha1sums.txt
-	cd "$cwd"
 else
-	isoPath=$2
+	download=true
+	downloadDir=/tmp
+fi
+
+if [ download ]; then
+	echo "Downloading the latest Arch Linux ISO."
+
+	cwd=`pwd`
+	cd "$downloadDir"
+
+	mirrorDir="$mirror/iso/latest"
+
+	wget $mirrorDir -O archlinux-iso-index.html
+	isoName=`sed "s/.*\(archlinux-[0-9\.]\+-dual\.iso\).*/\1/" archlinux-iso-index.html | grep dual.iso | tail -1`
+	rm archlinux-iso-index.html
+
+	wget "$mirrorDir/$isoName" -O "$isoName"
+	wget "$mirrorDir/sha1sums.txt" -O archlinux-iso-sha1sums.txt
+	
+	cat archlinux-iso-sha1sums.txt | grep dual.iso | sha1sum -c --status
+	if [ "$?" == "0" ]; then
+		isoPath="$downloadDir/$isoName"
+		rm archlinux-iso-sha1sums.txt
+		cd "$cwd"
+	else
+		echo "Error: SHA1SUM does not match!"
+		rm archlinux-iso-sha1sums.txt
+		rm "$isoName"
+		exit
+	fi
 fi
 
 mkdir -p /mnt/arch-iso
@@ -78,8 +99,8 @@ umount /mnt/arch-usb
 rmdir /mnt/arch-iso
 rmdir /mnt/arch-usb
 
-if [ $downloaded ]; then
-	rm "/tmp/$isoName"
+if [ $download ]; then
+	rm "$isoPath"
 fi
 
 sfdisk -A$partitionNumber $device

@@ -11,38 +11,42 @@ Before using `arch-linux-usb-creator`, make sure:
 
 * the latest `syslinux` package (version 6.02 or newer) is installed 
   on the system,
-* the USB has a MBR (msdos) partition table,
+* the USB device has a MBR (msdos) partition table,
 * the USB partition has a FAT32 filesystem,
-* the USB partition is **not** mounted.
+* the USB partition is **not** mounted (you can use `lsblk` to check it).
 
 Download
 --------
-Because `arch-linux-usb-creator` is only shell script, there is no need to 
-compile.
-
-You can download `arch-linux-usb-creator` directly from GitHub:
-```bash
-$ wget https://raw.github.com/brano-holy/arch-linux-usb-creator/master/arch-linux-usb-creator
-$ chmod +x arch-linux-usb-creator
-```
-
-Or with this short URL:
-```bash
-$ wget http://git.io/84IWDg -O arch-linux-usb-creator
-$ chmod +x arch-linux-usb-creator
-```
-
-Or using `git clone` command:
+You can download `arch-linux-usb-creator` from GitHub using `git clone` command:
 ```bash
 $ git clone https://github.com/brano-holy/arch-linux-usb-creator.git
 $ cd arch-linux-usb-creator
 ```
 
+Or archive with `wget` command:
+```bash
+$ wget https://github.com/brano-holy/arch-linux-usb-creator/archive/master.tar.gz -O aluc.tar.gz
+$ tar -xf aluc.tar.gz
+$ cd arch-linux-usb-creator-master
+```
+
+Or with this short URL:
+```bash
+$ wget http://git.io/PzxJTg -O aluc.tar.gz
+$ tar -xf aluc.tar.gz
+$ cd arch-linux-usb-creator-master
+```
+
+Build
+-----
+There is no need to build `arch-linux-usb-creator` because it's only shell script.
+
 Usage
 -----
-Before first use, change `mirror` variable to the closest server from 
-[http://www.archlinux.org/download/](http://www.archlinux.org/download/) (it 
-should be path to folder which contains *archlinux* folder).
+Before first use, change `mirror` variable in `mirrors.conf` to the closest 
+server from 
+[https://www.archlinux.org/mirrors/status/](https://www.archlinux.org/mirrors/status/) 
+(use *Mirror URL* column).
 
 Run `arch-linux-usb-creator` as root user.
 
@@ -50,14 +54,25 @@ Run `arch-linux-usb-creator` as root user.
 $ ./arch-linux-usb-creator <device-partition> [<path-to-arch-linux-iso>]
 ```
 
-Omiting `<path-to-arch-linux-iso>` option will download the latest Arch Linux ISO 
+Omitting `<path-to-arch-linux-iso>` option will download the latest Arch Linux ISO 
 from specified mirror and check `sha1sum` after download.
+
+`<path-to-arch-linux-iso>` option can be also used to specify directory where 
+the ISO will be downloaded (default is `/tmp`).
+
+Downloaded ISO will be deleted automatically.
 
 Examples
 --------
-Use the latest image:
+Use the latest image (download it):
 ```bash
 $ ./arch-linux-usb-creator /dev/sdb1
+```
+
+Use the latest image (download it) and use `~/Downloads` instead of `/tmp` 
+where the ISO will be downloaded:
+```bash
+$ ./arch-linux-usb-creator /dev/sdb1 ~/Downloads
 ```
 
 Use previously downloaded image:
