@@ -22,6 +22,10 @@ echo "Arch Linux USB Creator"
 
 . mirrors.conf
 
+if [ -z "$mirror" ]; then
+	echo "Error: You have to set mirror variable in mirrors.conf file. (see README.md file)!"
+fi
+
 if [ -n "$1" ]; then
 	if [ ! -b "$1" ]; then
 		echo "Error: Partition option is not set to block device."

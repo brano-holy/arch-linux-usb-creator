@@ -30,7 +30,7 @@ $ tar -xf aluc.tar.gz
 $ cd arch-linux-usb-creator-master
 ```
 
-Or with this short URL:
+Or with this short URL (useful when you have to type URL manually):
 ```bash
 $ wget http://git.io/PzxJTg -O aluc.tar.gz
 $ tar -xf aluc.tar.gz
