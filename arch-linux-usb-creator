@@ -93,7 +93,7 @@ mount "$partition" /mnt/arch-usb
 
 cp -a /mnt/arch-iso/* /mnt/arch-usb
 
-sed -i "s|label=ARCH_.*|device=/dev/disk/by-uuid/$(blkid -o value -s UUID $partition)|" /mnt/arch-usb/arch/boot/syslinux/archiso_sys{32,64}.cfg
+sed -i "s|label=ARCH_.*|device=/dev/disk/by-uuid/$(blkid -o value -s UUID $partition)|" /mnt/arch-usb/arch/boot/syslinux/archiso_sys{32,64}.cfg /mnt/arch-usb/loader/entries/archiso-x86_64.conf
 
 cp -r /usr/lib/syslinux/bios/*.c32 /mnt/arch-usb/arch/boot/syslinux
 extlinux --install /mnt/arch-usb/arch/boot/syslinux
