@@ -19,20 +19,20 @@ Download
 --------
 You can download `arch-linux-usb-creator` from GitHub using `git clone` command:
 ```bash
-$ git clone https://github.com/brano-holy/arch-linux-usb-creator.git
+$ git clone https://github.com/branoholy/arch-linux-usb-creator.git
 $ cd arch-linux-usb-creator
 ```
 
 Or archive with `wget` command:
 ```bash
-$ wget https://github.com/brano-holy/arch-linux-usb-creator/archive/master.tar.gz -O aluc.tar.gz
+$ wget https://github.com/branoholy/arch-linux-usb-creator/archive/master.tar.gz -O aluc.tar.gz
 $ tar -xf aluc.tar.gz
 $ cd arch-linux-usb-creator-master
 ```
 
 Or with this short URL (useful when you have to type URL manually):
 ```bash
-$ wget http://git.io/PzxJTg -O aluc.tar.gz
+$ wget http://git.io/89acXw -O aluc.tar.gz
 $ tar -xf aluc.tar.gz
 $ cd arch-linux-usb-creator-master
 ```
@@ -83,5 +83,5 @@ $ ./arch-linux-usb-creator /dev/sdb1 ~/Downloads/archlinux-2014.03.01-dual.iso
 License
 -------
 Arch Linux USB Creator is licensed under GNU GPL v3 (see 
-[COPYING](https://github.com/brano-holy/arch-linux-usb-creator/blob/master/COPYING) 
+[COPYING](https://github.com/branoholy/arch-linux-usb-creator/blob/master/COPYING) 
 file).
