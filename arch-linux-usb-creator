@@ -20,13 +20,6 @@
 
 echo "Arch Linux USB Creator"
 
-. mirrors.conf
-
-if [ -z "$mirror" ]; then
-	echo "Error: You have to set mirror variable in mirrors.conf file (see README.md file)!"
-	exit
-fi
-
 if [ -n "$1" ]; then
 	if [ ! -b "$1" ]; then
 		echo "Error: Partition option is not set to block device."
@@ -57,8 +50,15 @@ else
 	downloadDir=/tmp
 fi
 
-if [ download ]; then
+if $download; then
 	echo "Downloading the latest Arch Linux ISO."
+
+	. mirrors.conf
+
+	if [ -z "$mirror" ]; then
+		echo "Error: You have to set mirror variable in mirrors.conf file (see README.md file)!"
+		exit
+	fi
 
 	cwd=`pwd`
 	cd "$downloadDir"
@@ -71,7 +71,7 @@ if [ download ]; then
 
 	wget "$mirrorDir/$isoName" -O "$isoName"
 	wget "$mirrorDir/sha1sums.txt" -O archlinux-iso-sha1sums.txt
-	
+
 	cat archlinux-iso-sha1sums.txt | grep dual.iso | sha1sum -c --status
 	if [ "$?" == "0" ]; then
 		isoPath="$downloadDir/$isoName"
@@ -104,7 +104,7 @@ umount /mnt/arch-usb
 rmdir /mnt/arch-iso
 rmdir /mnt/arch-usb
 
-if [ $download ]; then
+if $download; then
 	rm "$isoPath"
 fi
 
@@ -112,3 +112,4 @@ sfdisk -A$partitionNumber $device
 dd bs=440 count=1 conv=notrunc if=/usr/lib/syslinux/bios/mbr.bin of=$device
 
 echo "Arch Linux USB Creator: Done"
+
