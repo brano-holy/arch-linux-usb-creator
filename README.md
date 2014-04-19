@@ -43,10 +43,9 @@ There is no need to build `arch-linux-usb-creator` because it's only shell scrip
 
 Usage
 -----
-Before first use, change `mirror` variable in `mirrors.conf` to the closest 
-server from 
+Change `mirror` variable in `mirrors.conf` to the closest server from 
 [https://www.archlinux.org/mirrors/status/](https://www.archlinux.org/mirrors/status/) 
-(use *Mirror URL* column).
+(use *Mirror URL* column) if you want to download the latest ISO image.
 
 Run `arch-linux-usb-creator` as root user.
 
