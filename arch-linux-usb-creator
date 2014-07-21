@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Arch Linux USB Creator
-# Copyright (C) 2014  Branislav Holý <brano.holy@gmail.com>
+# Copyright (C) 2014  Branislav Holý <branoholy@gmail.com>
 #
 # This file is part of Arch Linux USB Creator.
 #
@@ -50,13 +50,13 @@ else
 	downloadDir=/tmp
 fi
 
-if $download; then
-	echo "Downloading the latest Arch Linux ISO."
+. config.conf
 
-	. mirrors.conf
+if $download; then
+	echo "Downloading the latest Arch Linux ISO..."
 
 	if [ -z "$mirror" ]; then
-		echo "Error: You have to set mirror variable in mirrors.conf file (see README.md file)!"
+		echo "Error: You have to set mirror variable in config.conf file (see README.md file)!"
 		exit
 	fi
 
@@ -85,18 +85,22 @@ if $download; then
 	fi
 fi
 
+echo "Mounting ISO and USB..."
+
 mkdir -p /mnt/arch-iso
-mount -o loop "$isoPath" /mnt/arch-iso
+mount -o loop,ro "$isoPath" /mnt/arch-iso
 
 mkdir -p /mnt/arch-usb
 mount "$partition" /mnt/arch-usb
+
+echo "Copying files to USB..."
 
 cp -a /mnt/arch-iso/* /mnt/arch-usb
 
 sed -i "s|label=ARCH_.*|device=/dev/disk/by-uuid/$(blkid -o value -s UUID $partition)|" /mnt/arch-usb/arch/boot/syslinux/archiso_sys{32,64}.cfg /mnt/arch-usb/loader/entries/archiso-x86_64.conf
 
-cp -r /usr/lib/syslinux/bios/*.c32 /mnt/arch-usb/arch/boot/syslinux
-extlinux --install /mnt/arch-usb/arch/boot/syslinux
+cp -r "$syslinux"/*.c32 /mnt/arch-usb/arch/boot/syslinux
+$extlinux --install /mnt/arch-usb/arch/boot/syslinux
 
 sync
 umount /mnt/arch-iso
@@ -109,7 +113,7 @@ if $download; then
 fi
 
 sfdisk -A$partitionNumber $device
-dd bs=440 count=1 conv=notrunc if=/usr/lib/syslinux/bios/mbr.bin of=$device
+dd bs=440 count=1 conv=notrunc if="$syslinux/mbr.bin" of=$device
 
 echo "Arch Linux USB Creator: Done"
 
