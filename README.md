@@ -9,14 +9,6 @@ Arch Linux.*
 `arch-linux-usb-creator` creates installation USB according to 
 [https://wiki.archlinux.org/index.php/Install\_from\_a\_USB\_flash\_drive#Using\_manual\_formatting](https://wiki.archlinux.org/index.php/Install_from_a_USB_flash_drive#Using_manual_formatting).
 
-Before using `arch-linux-usb-creator`, make sure:
-
-* the latest `syslinux` package (version 6.02 or newer) is installed 
-  on the system (see [Config](#config) section for more info),
-* the USB device has a MBR (msdos) partition table,
-* the USB partition has a FAT32 filesystem,
-* the USB partition is **not** mounted (you can use `lsblk` to check it).
-
 Download
 --------
 You can download `arch-linux-usb-creator` from GitHub using `git clone` command:
@@ -38,11 +30,6 @@ $ wget http://git.io/89acXw -O aluc.tar.gz
 $ tar -xf aluc.tar.gz
 $ cd arch-linux-usb-creator-master
 ```
-
-Build
------
-There is no need to build `arch-linux-usb-creator` because it's only shell 
-script.
 
 Usage
 -----
@@ -71,6 +58,21 @@ from [Arch Linux Package Database](https://www.archlinux.org/packages/?repo=Core
 Choose your architecture and click on *Download From Mirror* link. After 
 downloading and unpacking, change `syslinux` variable to `bios` folder 
 containing `*.c32` files and `extlinux` variable to `extlinux` binary.
+
+Dependencies
+------------
+Before using `arch-linux-usb-creator`, make sure:
+
+* the latest `syslinux` package (version 6.02 or newer) is installed 
+  on the system (see [Config](#config) section for more info),
+* the USB device has a MBR (msdos) partition table,
+* the USB partition has a FAT32 filesystem,
+* the USB partition is **not** mounted (you can use `lsblk` to check it).
+
+Build
+-----
+There is no need to build `arch-linux-usb-creator` because it's only shell 
+script.
 
 Examples
 --------
