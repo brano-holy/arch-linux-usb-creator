@@ -1,49 +1,49 @@
 Arch Linux USB Creator
 ======================
 
-arch-linux-usb-creator
+archlinux-usb-creator
 ----------------------
 *Unofficial helper script for creating USB Flash Installation Media with 
 Arch Linux.*
 
-`arch-linux-usb-creator` creates installation USB according to 
+`archlinux-usb-creator` creates installation USB according to 
 [https://wiki.archlinux.org/index.php/Install\_from\_a\_USB\_flash\_drive#Using\_manual\_formatting](https://wiki.archlinux.org/index.php/Install_from_a_USB_flash_drive#Using_manual_formatting).
 
 Download
 --------
-You can download `arch-linux-usb-creator` from GitHub using `git clone` command:
+You can download `archlinux-usb-creator` from GitHub using `git clone` command:
 ```bash
-$ git clone https://github.com/branoholy/arch-linux-usb-creator.git
-$ cd arch-linux-usb-creator
+$ git clone https://github.com/branoholy/archlinux-usb-creator.git
+$ cd archlinux-usb-creator
 ```
 
 Or archive with `wget` command:
 ```bash
-$ wget https://github.com/branoholy/arch-linux-usb-creator/archive/master.tar.gz -O aluc.tar.gz
+$ wget https://github.com/branoholy/archlinux-usb-creator/archive/master.tar.gz -O aluc.tar.gz
 $ tar -xf aluc.tar.gz
-$ cd arch-linux-usb-creator-master
+$ cd archlinux-usb-creator-master
 ```
 
 Or with this short URL (useful when you have to type URL manually):
 ```bash
 $ wget http://git.io/89acXw -O aluc.tar.gz
 $ tar -xf aluc.tar.gz
-$ cd arch-linux-usb-creator-master
+$ cd archlinux-usb-creator-master
 ```
 
 Usage
 -----
-Run `arch-linux-usb-creator` as root user.
+Run `archlinux-usb-creator` as root user.
 
 ```bash
-$ ./arch-linux-usb-creator <device-partition> [<path-to-arch-linux-iso>]
+$ ./archlinux-usb-creator <device-partition> [<path-to-archlinux-iso>]
 ```
 
-Omitting `<path-to-arch-linux-iso>` option will download the latest Arch Linux 
+Omitting `<path-to-archlinux-iso>` option will download the latest Arch Linux 
 ISO from specified mirror (see [Config](#config) section) and check `sha1sum` 
 after download.
 
-`<path-to-arch-linux-iso>` option can be also used to specify directory where 
+`<path-to-archlinux-iso>` option can be also used to specify directory where 
 the ISO will be downloaded (default is `/tmp`).
 
 Downloaded ISO will be deleted automatically.
@@ -61,7 +61,7 @@ containing `*.c32` files and `extlinux` variable to `extlinux` binary.
 
 Dependencies
 ------------
-Before using `arch-linux-usb-creator`, make sure:
+Before using `archlinux-usb-creator`, make sure:
 
 * the latest `syslinux` package (version 6.02 or newer) is installed 
   on the system (see [Config](#config) section for more info),
@@ -71,30 +71,30 @@ Before using `arch-linux-usb-creator`, make sure:
 
 Build
 -----
-There is no need to build `arch-linux-usb-creator` because it's only shell 
+There is no need to build `archlinux-usb-creator` because it's only shell 
 script.
 
 Examples
 --------
 Use the latest image (download it):
 ```bash
-$ ./arch-linux-usb-creator /dev/sdb1
+$ ./archlinux-usb-creator /dev/sdb1
 ```
 
 Use the latest image (download it) and use `~/Downloads` instead of `/tmp` 
 where the ISO will be downloaded:
 ```bash
-$ ./arch-linux-usb-creator /dev/sdb1 ~/Downloads
+$ ./archlinux-usb-creator /dev/sdb1 ~/Downloads
 ```
 
 Use previously downloaded image:
 ```bash
-$ ./arch-linux-usb-creator /dev/sdb1 ~/Downloads/archlinux-2014.03.01-dual.iso
+$ ./archlinux-usb-creator /dev/sdb1 ~/Downloads/archlinux-2014.03.01-dual.iso
 ```
 
 License
 -------
 Arch Linux USB Creator is licensed under GNU GPL v3 (see 
-[COPYING](https://github.com/branoholy/arch-linux-usb-creator/blob/master/COPYING) 
+[COPYING](https://github.com/branoholy/archlinux-usb-creator/blob/master/COPYING) 
 file).
 

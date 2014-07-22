@@ -65,6 +65,7 @@ if $download; then
 
 	mirrorDir="$mirror/iso/latest"
 
+	echo
 	wget $mirrorDir -O archlinux-iso-index.html
 	isoName=`sed "s/.*\(archlinux-[0-9\.]\+-dual\.iso\).*/\1/" archlinux-iso-index.html | grep dual.iso | tail -1`
 	rm archlinux-iso-index.html
@@ -87,26 +88,26 @@ fi
 
 echo "Mounting ISO and USB..."
 
-mkdir -p /mnt/arch-iso
-mount -o loop,ro "$isoPath" /mnt/arch-iso
+mkdir -p /mnt/archlinux-iso
+mount -o loop,ro "$isoPath" /mnt/archlinux-iso
 
-mkdir -p /mnt/arch-usb
-mount "$partition" /mnt/arch-usb
+mkdir -p /mnt/archlinux-usb
+mount "$partition" /mnt/archlinux-usb
 
 echo "Copying files to USB..."
 
-cp -a /mnt/arch-iso/* /mnt/arch-usb
+cp -a /mnt/archlinux-iso/* /mnt/archlinux-usb
 
-sed -i "s|label=ARCH_.*|device=/dev/disk/by-uuid/$(blkid -o value -s UUID $partition)|" /mnt/arch-usb/arch/boot/syslinux/archiso_sys{32,64}.cfg /mnt/arch-usb/loader/entries/archiso-x86_64.conf
+sed -i "s|label=ARCH_.*|device=/dev/disk/by-uuid/$(blkid -o value -s UUID $partition)|" /mnt/archlinux-usb/arch/boot/syslinux/archiso_sys{32,64}.cfg /mnt/archlinux-usb/loader/entries/archiso-x86_64.conf
 
-cp -r "$syslinux"/*.c32 /mnt/arch-usb/arch/boot/syslinux
-$extlinux --install /mnt/arch-usb/arch/boot/syslinux
+cp -r "$syslinux"/*.c32 /mnt/archlinux-usb/arch/boot/syslinux
+$extlinux --install /mnt/archlinux-usb/arch/boot/syslinux
 
 sync
-umount /mnt/arch-iso
-umount /mnt/arch-usb
-rmdir /mnt/arch-iso
-rmdir /mnt/arch-usb
+umount /mnt/archlinux-iso
+umount /mnt/archlinux-usb
+rmdir /mnt/archlinux-iso
+rmdir /mnt/archlinux-usb
 
 if $download; then
 	rm "$isoPath"
