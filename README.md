@@ -26,7 +26,7 @@ $ cd archlinux-usb-creator-master
 
 Or with this short URL (useful when you have to type URL manually):
 ```bash
-$ wget http://git.io/89acXw -O aluc.tar.gz
+$ wget http://git.io/KAKgAQ -O aluc.tar.gz
 $ tar -xf aluc.tar.gz
 $ cd archlinux-usb-creator-master
 ```
