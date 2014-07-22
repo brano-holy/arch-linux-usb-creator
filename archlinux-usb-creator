@@ -79,7 +79,7 @@ if $download; then
 		rm archlinux-iso-sha1sums.txt
 		cd "$cwd"
 	else
-		echo "Error: SHA1SUM does not match!"
+		echo "Error: sha1sum does not match!"
 		rm archlinux-iso-sha1sums.txt
 		rm "$isoName"
 		exit
