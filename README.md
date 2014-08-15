@@ -11,7 +11,7 @@ Arch Linux.*
 
 Download
 --------
-You can download `archlinux-usb-creator` from GitHub using the following 
+You can download `archlinux-usb-creator` from &#f092; using the following 
 `git clone` command:
 ```bash
 $ git clone https://github.com/branoholy/archlinux-usb-creator.git
