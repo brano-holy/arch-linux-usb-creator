@@ -65,7 +65,7 @@ Dependencies
 Before using `archlinux-usb-creator`, make sure:
 
 * the latest `syslinux` package (version 6.02 or newer) is installed 
-  on the system (see the [Config](#config) section for more info),
+  on the system (see the [Config](#config) section for more details),
 * the USB device has a MBR (msdos) partition table,
 * the USB partition has a FAT32 filesystem,
 * the USB partition is **not** mounted (you can use `lsblk` to check it).
