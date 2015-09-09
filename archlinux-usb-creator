@@ -113,7 +113,7 @@ if $download; then
 	rm "$isoPath"
 fi
 
-sfdisk -A$partitionNumber $device
+sfdisk -A $device $partitionNumber
 dd bs=440 count=1 conv=notrunc if="$syslinux/mbr.bin" of=$device
 
 echo "Arch Linux USB Creator: Done"
