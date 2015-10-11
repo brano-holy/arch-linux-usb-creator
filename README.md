@@ -1,16 +1,13 @@
-Arch Linux USB Creator
-======================
+# Arch Linux USB Creator
 
-archlinux-usb-creator
-----------------------
+## archlinux-usb-creator
 *An unofficial helper script for creating a USB Flash Installation Media with 
 Arch Linux.*
 
 `archlinux-usb-creator` creates an installation USB according to 
 [https://wiki.archlinux.org/index.php/Install\_from\_a\_USB\_flash\_drive#Using\_manual\_formatting](https://wiki.archlinux.org/index.php/Install_from_a_USB_flash_drive#Using_manual_formatting).
 
-Download
---------
+## Download
 You can download `archlinux-usb-creator` from GitHub using the following 
 `git clone` command:
 ```bash
@@ -27,13 +24,12 @@ $ cd archlinux-usb-creator-master
 
 Or with this short URL (useful when you have to type the URL manually):
 ```bash
-$ wget http://git.io/KAKgAQ -O aluc.tar.gz
+$ wget https://git.io/KAKgAQ -O aluc.tar.gz
 $ tar -xf aluc.tar.gz
 $ cd archlinux-usb-creator-master
 ```
 
-Usage
------
+## Usage
 Run `archlinux-usb-creator` as a root user.
 
 ```bash
@@ -60,8 +56,7 @@ Choose your architecture and click on the *Download From Mirror* link. After
 downloading and unpacking, change the `syslinux` variable to the `bios` folder 
 containing `*.c32` files and the `extlinux` variable to the `extlinux` binary.
 
-Dependencies
-------------
+## Dependencies
 Before using `archlinux-usb-creator`, make sure:
 
 * the latest `syslinux` package (version 6.02 or newer) is installed 
@@ -70,13 +65,11 @@ Before using `archlinux-usb-creator`, make sure:
 * the USB partition has a FAT32 filesystem,
 * the USB partition is **not** mounted (you can use `lsblk` to check it).
 
-Build
------
+## Build
 There is no need to build `archlinux-usb-creator` because it's only a shell 
 script.
 
-Examples
---------
+## Examples
 Use the latest image (download it):
 ```bash
 $ ./archlinux-usb-creator /dev/sdb1
@@ -93,9 +86,8 @@ Use a previously downloaded image:
 $ ./archlinux-usb-creator /dev/sdb1 ~/Downloads/archlinux-2014.03.01-dual.iso
 ```
 
-License
--------
+## License
 Arch Linux USB Creator is licensed under GNU GPL v3 (see 
-[COPYING](https://github.com/branoholy/archlinux-usb-creator/blob/master/COPYING) 
+[LICENSE](https://github.com/branoholy/archlinux-usb-creator/blob/master/LICENSE) 
 file).
 
