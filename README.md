@@ -1,6 +1,5 @@
 # Arch Linux USB Creator
 
-## archlinux-usb-creator
 *An unofficial helper script for creating a USB Flash Installation Media with 
 Arch Linux.*
 
