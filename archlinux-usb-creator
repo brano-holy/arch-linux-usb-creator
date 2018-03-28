@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Arch Linux USB Creator
-# Copyright (C) 2014  Branislav Holý <branoholy@gmail.com>
+# Copyright (C) 2014-2018  Branislav Holý <branoholy@gmail.com>
 #
 # This file is part of Arch Linux USB Creator.
 #
@@ -18,72 +18,159 @@
 # You should have received a copy of the GNU General Public License
 # along with Arch Linux USB Creator.  If not, see <http://www.gnu.org/licenses/>.
 
-echo "Arch Linux USB Creator"
+programName="Arch Linux USB Creator"
+programVersion="0.1.0"
 
+printHelp() {
+    echo $programName
+    echo
+    echo "Usage: $0 <device-partition> [-p <path>] [-m <url>] [-h]"
+    echo
+    echo "Options:"
+    echo "  -p, --path    Path to Arch Linux ISO. If omitted, the latest Arch Linux ISO"
+    echo "                from the specified mirror will be downloaded and sha1sum will be"
+    echo "                checked after download (the downloaded ISO will be deleted"
+    echo "                automatically). If specified, it can be a path to the ISO to use"
+    echo "                or a directory where the ISO will be downloaded."
+    echo "                Default: /tmp"
+    echo
+    echo "  -m, --mirror  URL of Arch Linux mirror. It has to be specified if you want to"
+    echo "                download the latest ISO image. Use URL of the closest server"
+    echo "                from https://www.archlinux.org/mirrors/status/ (use the Mirror"
+    echo "                URL column)."
+    echo "                Default: mirror from aluc.conf"
+    echo
+    echo "  -h, --help    Print this help."
+    echo
+    echo "  -v, --version Print the version number."
+    echo
+    echo "Examples:"
+    echo "  Download the latest image from the mirror to /tmp:"
+    echo "    ./archlinux-usb-creator /dev/sdb1 -m https://mirror.dkm.cz/archlinux/"
+    echo
+    echo "  Download the latest image to /tmp (the mirror is taken from aluc.conf):"
+    echo "    ./archlinux-usb-creator /dev/sdb1"
+    echo
+    echo "  Download the latest image to ~/Downloads (the mirror is taken from aluc.conf):"
+    echo "    ./archlinux-usb-creator /dev/sdb1 -p ~/Downloads"
+    echo
+    echo "  Use a previously downloaded image:"
+    echo "    ./archlinux-usb-creator /dev/sdb1 -p /tmp/archlinux-2018.03.01-x86_64.iso"
+    echo
+    echo "Version: $programVersion"
+}
+
+printVersion() {
+    echo "$programName $programVersion"
+}
+
+# Print the help if it is the first option
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    printHelp
+    exit
+fi
+
+# Print the version if it is the first option
+if [ "$1" = "-v" ] || [ "$1" = "--version" ]; then
+    printVersion
+    exit
+fi
+
+# Parse the <device-partition> option
 if [ -n "$1" ]; then
-	if [ ! -b "$1" ]; then
-		echo "Error: Partition option is not set to block device."
-		exit
-	fi
+    if [ ! -b "$1" ]; then
+        echo "Error: The partition option is not set to a block device."
+        exit
+    fi
 else
-	echo "Error: Missing partition option (see README.md file)!"
-	exit
+    echo "Error: The partition option is missing (see the help or README.md file)!"
+    exit
 fi
 
 partition=$1
 device=${partition:0: -1}
 partitionNumber=${partition: -1}
+shift
 
-if [ -n "$2" ]; then
-	if [ -f "$2" ]; then
-		download=false
-		isoPath=$2
-	elif [ -d "$2" ]; then
-		download=true
-		downloadDir=$2
-	else
-		echo "Error: Wrong path to ISO or to download directory!"
-		exit
-	fi
-else
-	download=true
-	downloadDir=/tmp
-fi
+# Parse the rest of options
+isoPath=""
+download=false
+downloadDir=/tmp
 
-. config.conf
+mirror=""
 
+. aluc.conf
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -p|--path)
+            if [ -n "$2" ]; then
+                if [ -f "$2" ]; then
+                    download=false
+                    isoPath=$2
+                elif [ -d "$2" ]; then
+                    download=true
+                    downloadDir=$2
+                else
+                    echo "Error: Wrong path to ISO or to download directory!"
+                    exit
+                fi
+            fi
+            shift
+            shift
+        ;;
+        -m|--mirror)
+            if [ -n "$2" ]; then
+                mirror=$2
+            fi
+            shift
+            shift
+        ;;
+        -h|--help)
+            printHelp
+            exit
+        ;;
+        -v|--version)
+            printVersion
+            exit
+        ;;
+    esac
+done
+
+# Download the ISO
 if $download; then
-	echo "Downloading the latest Arch Linux ISO..."
+    echo "Downloading the latest Arch Linux ISO..."
 
-	if [ -z "$mirror" ]; then
-		echo "Error: You have to set mirror variable in config.conf file (see README.md file)!"
-		exit
-	fi
+    if [ -z "$mirror" ]; then
+        echo "Error: You have to set the mirror variable in the aluc.conf file or with the --mirror option (see the help or README.md file)!"
+        exit
+    fi
 
-	cwd=`pwd`
-	cd "$downloadDir"
+    cwd=`pwd`
+    cd "$downloadDir"
 
-	mirrorDir="$mirror/iso/latest"
+    mirrorDir="$mirror/iso/latest"
 
-	echo
-	wget $mirrorDir -O archlinux-iso-index.html
-	isoName=`sed "s/.*\(archlinux-[0-9\.]\+-dual\.iso\).*/\1/" archlinux-iso-index.html | grep dual.iso | tail -1`
-	rm archlinux-iso-index.html
+    echo
+    wget $mirrorDir -O archlinux-iso-index.html
+    isoName=`sed "s/.*\(archlinux-[0-9\.]\+-x86_64\.iso\).*/\1/" archlinux-iso-index.html | grep x86_64.iso | tail -1`
+    rm archlinux-iso-index.html
 
-	wget "$mirrorDir/$isoName" -O "$isoName"
-	wget "$mirrorDir/sha1sums.txt" -O archlinux-iso-sha1sums.txt
+    wget "$mirrorDir/$isoName" -O "$isoName"
+    wget "$mirrorDir/sha1sums.txt" -O archlinux-iso-sha1sums.txt
 
-	cat archlinux-iso-sha1sums.txt | grep dual.iso | sha1sum -c --status
-	if [ "$?" == "0" ]; then
-		isoPath="$downloadDir/$isoName"
-		rm archlinux-iso-sha1sums.txt
-		cd "$cwd"
-	else
-		echo "Error: sha1sum does not match!"
-		rm archlinux-iso-sha1sums.txt
-		rm "$isoName"
-		exit
-	fi
+    cat archlinux-iso-sha1sums.txt | grep x86_64.iso | sha1sum -c --status
+    if [ "$?" == "0" ]; then
+        isoPath="$downloadDir/$isoName"
+        rm archlinux-iso-sha1sums.txt
+        cd "$cwd"
+    else
+        echo "Error: sha1sum does not match!"
+        rm archlinux-iso-sha1sums.txt
+        rm "$isoName"
+        cd "$cwd"
+        exit
+    fi
 fi
 
 echo "Mounting ISO and USB..."
@@ -110,11 +197,10 @@ rmdir /mnt/archlinux-iso
 rmdir /mnt/archlinux-usb
 
 if $download; then
-	rm "$isoPath"
+    rm "$isoPath"
 fi
 
 sfdisk -A $device $partitionNumber
 dd bs=440 count=1 conv=notrunc if="$syslinux/mbr.bin" of=$device
 
-echo "Arch Linux USB Creator: Done"
-
+echo "$programName: Done"
